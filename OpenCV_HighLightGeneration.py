@@ -1,3 +1,6 @@
+#Please read this , before going through code
+#https://hemchandralive.blogspot.com/2019/10/highlight-creation-with-using-opencv.html
+
 #import Needed Libraries
 import cv2
 import os 
