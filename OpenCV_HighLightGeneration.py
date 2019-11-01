@@ -1,11 +1,12 @@
 #import OpenCv Library
 import cv2
+import os 
+import glob
 
 #HaarCascade Classifier 
 faceCascade = cv2.CascadeClassifier("haarcascade_frontalface_default.xml")
 
 #For Changing the video Name
-inc=1
 
 #Opening the camera
 video_capture = cv2.VideoCapture(0)
@@ -18,7 +19,7 @@ from datetime import datetime
 dateTimeObj=datetime.now()
 
 #Setting the video filename
-videoname = dateTimeObj.strftime("%d %b %Y %H %M")+str(inc)
+videoname = dateTimeObj.strftime("%d %b %Y %H %M %S")
 print('Current Timestamp : ', videoname)
 
 #Here We are saving our all clips into hc_videos name folder
@@ -47,18 +48,18 @@ while True:
         cv2.rectangle(frame, (x, y), (x+w, y+h), (0, 255, 0), 2)
         print(x," ",y," ",w," ",h)
   
-    output.write(frame)
+   
    
    #Below segment will activate when human face will not detect
     if(len(faces)==0):
-        inc+=1
         output.release()
         dateTimeObj=datetime.now()
-        videoname = dateTimeObj.strftime("%d %b %Y %H %M")+str(inc)
+        videoname = dateTimeObj.strftime("%d %b %Y %H %M %S")
         print('Current Timestamp : ', videoname)
         output = cv2.VideoWriter("hc_videos/{}.mp4".format(videoname), vid_cod, 10.0, (640,480))
       
-        
+    if(len(faces)==1):
+         output.write(frame)
         
     # Display the resulting frame
     cv2.imshow('Video', frame)
@@ -73,13 +74,25 @@ video_capture.release()
 cv2.destroyAllWindows()
 
 
-#Merging Clips
-import glob
+
+
+from moviepy.editor import VideoFileClip,concatenate_videoclips
+
 list=glob.glob("hc_videos/*")
 print(list)
 
+for x in list:    
+    try:
+        clip = VideoFileClip(x)
+    except:
+        for i in glob.glob(x):
+            os.remove(i)
 
-from moviepy.editor import VideoFileClip, concatenate_videoclips
+
+#Merging Clips
+
+list=glob.glob("hc_videos/*")
+print(list)
 
 #Merging all clips into one 
 clips = []
@@ -92,6 +105,6 @@ for x in list:
 final_clip = concatenate_videoclips([x for x in clips])
 
 dateTimeObj=datetime.now()
-videoname ="HighligtVideo"+dateTimeObj.strftime("%d %b %Y %H %M")
+videoname ="HighligtVideo"+dateTimeObj.strftime("%d %b %Y %H %M %S")
 #finally merging all clips into one
-final_clip.write_videofile("{}.mp4".format(videoname))
+final_clip.write_videofile("Highlight_CV/{}.mp4".format(videoname))
