@@ -3,7 +3,7 @@
 """
 Created on Thu Nov 14 09:47:58 2019
 
-@author: coss22
+@author: Jo
 """
 #Doing with open cv2
 #Import Cv2 library
