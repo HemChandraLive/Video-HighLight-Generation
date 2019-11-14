@@ -2,19 +2,25 @@
 # -*- coding: utf-8 -*-
 """
 Created on Thu Nov 14 09:47:58 2019
-
-@author: coss22
+@author: Jo
 """
 #Doing with open cv2
 #Import Cv2 library
 import cv2,os
+from moviepy.editor import VideoFileClip
+
+inputfilepath="Dataset/vid1.mov"
 
 #For saving output   
 if not os.path.exists('Frames'):
     os.makedirs('Frames')
 
 #location of video file
-video=cv2.VideoCapture('Dataset/big.mp4')
+video=cv2.VideoCapture(inputfilepath)
+
+#For Getting Clip duration
+clip = VideoFileClip(inputfilepath)
+print(clip.duration,"seconds")
 
 def extractframe(sec):
     # cap.set(cv2.CAP_PROP_POS_MSEC,sec*1000) is responsible for 
