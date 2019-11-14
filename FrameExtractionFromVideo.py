@@ -30,7 +30,7 @@ def extractframe(sec):
     hasframes,image = video.read()
          
     if hasframes:
-        #Write to location , increasing the count to avoid name conflict of iamges
+        #Write to location , increasing the count to avoid name conflict of images
         #
         cv2.imwrite("Frames/image"+str(count)+".jpg", image)  # save frame as JPG file
         
